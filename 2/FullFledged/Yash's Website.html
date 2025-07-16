@@ -1,0 +1,345 @@
+<!---------Write a program to design a responsive homepage () using HTML,CSS and bootstrap-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="script" href="./scripts.js">
+    <link rel="script" href="./scripts.js">
+    <title>Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        #home{
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            height: 100 px;
+            
+            position: relative;
+        }
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #121273 0%,  #3d5058 100%) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .navbar-brand, .nav-link, .dropdown-item {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .nav-link.active, .nav-link:focus, .nav-link:hover, .dropdown-item:hover {
+            color: #fbbf24 !important;
+        }
+        .navbar-toggler {
+            border: none;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        .form-control {
+            border-radius: 2rem;
+        }
+        .btn-outline-success {
+            border-radius: 2rem;
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+        .btn-outline-success:hover {
+            background: #fbbf24;
+            color: #fff;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                background: linear-gradient(90deg, #6366f1 0%, #407891 100%);
+                padding: 1rem;
+                border-radius: 0.5rem;
+            }
+        }
+        .service-card {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 24px rgba(60,72,88,0.08);
+            transition: transform 0.2s;
+        }
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(60,72,88,0.16);
+        }
+        .service-icon {
+            font-size: 2.5rem;
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+        section {
+            scroll-margin-top: 90px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" style="font-size:xx-large;" href="#home"><strong>Yash</strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="#home" onclick="setActive(this)">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about" onclick="setActive(this)">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#services" onclick="setActive(this)">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#testimonials" onclick="setActive(this)">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#appointments" onclick="setActive(this)">Appointments</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search" onsubmit="return handleSearch(event)">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- Home Section -->
+<!-- Home Section -->
+<section id="home" class="container py-5" style="min-height: 80vh; display: flex; align-items: center; position: relative;margin-top: 80px;">
+    <!-- Blurred Video Background -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index:0; overflow:hidden; border-radius:2rem;">
+        <video autoplay muted loop playsinline class="w-100 h-100 object-fit-cover" style="filter: blur(12px) brightness(0.7); object-fit: cover;">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <!-- Content -->
+    <div class="text-center w-100 position-relative" style="z-index:1;">
+        <h1 class="fw-bold mb-3 text-white">Welcome to Yash's Services</h1>
+        <p class="lead text-light mb-4">Your one-stop solution for web, mobile, and digital marketing needs.</p>
+        <a href="#appointments" class="btn btn-primary btn-lg rounded-pill">Book an Appointment</a>
+    </div>
+</section>
+
+
+<!-- About Section -->
+<section id="about" class="container py-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-4 shadow" alt="About Us">
+        </div>
+        <div class="col-md-6"></div>
+            <h2 class="fw-bold mb-3">About Us</h2>
+            <p class="text-muted mb-3"></p>
+                We are a passionate team of developers and marketers dedicated to delivering high-quality digital solutions. With years of experience, we help businesses and individuals grow online through innovative technology and creative strategies.
+            </p>
+            <ul class="list-unstyled">
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Experienced Professionals</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Customer-Centric Approach</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> End-to-End Solutions</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold mb-3">Our Services</h2>
+        <p class="text-muted">We offer a wide range of high quality services to meet your needs.</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card service-card h-100 text-center p-4">
+                <div class="service-icon mb-2">
+                    <i class="bi bi-laptop"></i>
+                </div>
+                <h5 class="card-title">Web Development</h5>
+                <p class="card-text text-muted">Custom websites and web applications built with modern technologies for your business or personal needs.</p>
+                <a href="#appointments" class="btn btn-outline-primary rounded-pill mt-2">Get Started</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card service-card h-100 text-center p-4">
+                <div class="service-icon mb-2">
+                    <i class="bi bi-phone"></i>
+                </div>
+                <h5 class="card-title">Mobile App Development</h5>
+                <p class="card-text text-muted">Native and cross-platform mobile apps to help you reach your audience on any device.</p>
+                <a href="#appointments" class="btn btn-outline-primary rounded-pill mt-2">Get Started</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card service-card h-100 text-center p-4">
+                <div class="service-icon mb-2">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+                <h5 class="card-title">Digital Marketing</h5>
+                <p class="card-text text-muted">SEO, social media, and online advertising to grow your brand and increase your reach.</p>
+                <a href="#appointments" class="btn btn-outline-primary rounded-pill mt-2">Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold mb-3">Testimonials</h2>
+        <p class="text-muted">What our clients say about us.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="card-text">"Yash's team delivered our website on time and exceeded our expectations. Highly recommended!"</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" width="48" height="48" alt="Client">
+                        <div>
+                            <h6 class="mb-0">Rahul Sharma</h6>
+                            <small class="text-muted">Business Owner</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="card-text">"Their mobile app solution helped us reach more customers. Great support and communication!"</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle me-3" width="48" height="48" alt="Client">
+                        <div>
+                            <h6 class="mb-0">Priya Verma</h6>
+                            <small class="text-muted">Startup Founder</small>
+                        </div>
+                    </div>
+                            <
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Appointments Section -->
+<section id="appointments" class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold mb-3">Book an Appointment</h2>
+        <p class="text-muted">Fill out the form below and we will get in touch with you soon.</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <form class="p-4 p-md-5 bg-white rounded-4 shadow" id="appointmentForm" autocomplete="off">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" required placeholder="Enter your name">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="service" class="form-label">Service Interested In</label>
+                    <select class="form-select" id="service" required>
+                        <option value="">Select a service</option>
+                        <option>Web Development</option>
+                        <option>Mobile App Development</option>
+                        <option>Digital Marketing</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Preferred Date</label>
+                    <input type="date" class="form-control" id="date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Additional Message</label>
+                    <textarea class="form-control" id="message" rows="3" placeholder="Your message (optional)"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary rounded-pill w-100">Book Appointment</button>
+            </form>
+            <div id="appointmentSuccess" class="alert alert-success mt-4 d-none" role="alert">
+                Thank you! Your appointment request has been submitted.
+            </div>
+        </div>
+    </div>
+    <!--footer-->
+    <!---color of font as white-->
+    <footer class="text-center mt-5 py-4 d-flex flex-column justify-content-center" style="background-color: #040404; ">
+        <p class="mb-0 text-white" style="font-size: 1.2rem;">&copy; 2023 Yash's Services. All rights reserved.</p>
+        <p class="mb-0 text-white" style="font-size: 1rem;">
+            Follow us on 
+            <a href="#" class="text-decoration-none text-white">Facebook</a>, 
+            <a href="#" class="text-decoration-none text-white">Twitter</a>, 
+            <a href="#" class="text-decoration-none text-white">Instagram</a>
+        </p>
+    </footer>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function expandBlurredVideo() {
+        const blurredVideoSection = document.querySelector('.position-absolute');
+        blurredVideoSection.style.width = '100vw';
+        blurredVideoSection.style.height = '100vh';
+    }
+function handleSearch(event) {
+    event.preventDefault();
+    const query = document.getElementById('searchInput').value.trim();
+    if(query) {
+        alert('You searched for: ' + query);
+    } else {
+        alert('Please enter a search term.');
+    }
+    return false;
+}
+
+// Navbar active state on click
+function setActive(link) {
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    link.classList.add('active');
+}
+
+// Set active nav-link on scroll
+window.addEventListener('scroll', function() {
+    const sections = ['home', 'about', 'services', 'testimonials', 'appointments'];
+    let scrollPos = window.scrollY + 120;
+    for (let id of sections) {
+        let section = document.getElementById(id);
+        if (section && section.offsetTop <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            let navLink = document.querySelector('.nav-link[href="#' + id + '"]');
+            if (navLink) navLink.classList.add('active');
+        }
+    }
+});
+
+// Appointment form submission
+document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.classList.add('was-validated');
+    if (this.checkValidity()) {
+        this.reset();
+        document.getElementById('appointmentSuccess').classList.remove('d-none');
+        setTimeout(() => {
+            document.getElementById('appointmentSuccess').classList.add('d-none');
+        }, 4000);
+    }
+});
+
+    
+
+
+</script>
+</body>
+</html>

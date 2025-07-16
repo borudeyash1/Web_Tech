@@ -1,0 +1,40 @@
+<!---Creating registration form of sanjivani Colelge of engineering
+asking users to enter the PRN number,name,roll no,email,address and saving it also ,adding the confirmation message.
+connecting 1.css for styling-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="stylesheet" href="1.css">
+    <script src="1.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+</head>
+<body>
+    <div  id="container">
+        <div id="header">
+            <img src="./src/images/sanjivani.jpeg"  id="logo" alt="sanjivani logo">
+        <h1 id="h1" >Sanjivani College of Engineering</h1>
+        </div>
+        <h2 id="h2">Registration Form</h2>
+        <form id="form" action="2.html" method="post">
+            <label for="prn">PRN Number:</label>
+            <input type="text" id="prn" name="prn" placeholder="Enter your PRN number" required><br><br>
+                <label for="name">Name:
+                </label><input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
+            </label>
+            <label for="rollno">Roll Number:</label>
+            <input type="text" id="rollno" name="rollno" placeholder="Enter your roll number" required><br><br>
+            <label for="email">email</label>
+            <input type="email"id="email" name="email" placeholder="Enter your email" required><br><br>
+            <label for="address">address</label><input type="text" id="address" name="address" placeholder="Enter your address" required></label>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form> 
+    </div>
+    
+</body>
+
+</html>

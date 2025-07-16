@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #121273 0%,  #3d5058 100%) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .navbar-brand, .nav-link, .dropdown-item {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .nav-link.active, .nav-link:focus, .nav-link:hover, .dropdown-item:hover {
+            color: #fbbf24 !important;
+        }
+        .navbar-toggler {
+            border: none;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        .form-control {
+            border-radius: 2rem;
+        }
+        .btn-outline-success {
+            border-radius: 2rem;
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+        .btn-outline-success:hover {
+            background: #fbbf24;
+            color: #fff;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                background: linear-gradient(90deg, #6366f1 0%, #407891 100%);
+                padding: 1rem;
+                border-radius: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg" >
+  <div class="container"   >
+    <a class="navbar-brand" style="font-size:xx-large;; " href="./index.html"><strong>Yash</strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Appointments</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search" onsubmit="return handleSearch(event)">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function handleSearch(event) {
+    event.preventDefault();
+    const query = document.getElementById('searchInput').value.trim();
+    if(query) {
+        alert('You searched for: ' + query);
+    } else {
+        alert('Please enter a search term.');
+    }
+    return false;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+            background: linear-gradient(to right, #e0e5b8, #0a4a6a);
+        }
+        h1{
+            color: #333;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li button {
+            background-color: #dc3545;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        li button:hover {
+            background-color: #c82333;
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        li.completed button {
+            background-color: #6c757d;
+        }
+        li.completed button:hover {
+            background-color: #5a6268;
+        }
+        @media (max-width: 600px) {
+            input[type="text"] {
+                width: 100%;
+            }
+            button {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 24px;
+            }
+            input[type="text"] {
+                width: 90%;
+            }
+            button {
+                width: 90%;
+            }
+        }
+        @media (max-width: 300px) {
+            h1 {
+                font-size: 20px;
+            }
+            input[type="text"] {
+                width: 80%;
+            }
+            button {
+                width: 80%;
+            }
+        }
+        @media (max-width: 200px) {
+            h1 {
+                font-size: 18px;
+            }
+            input[type="text"] {
+                width: 70%;
+            }
+            button {
+                width: 70%;
+            }
+        }
+        @media (max-width: 100px) {
+            h1 {
+                font-size: 16px;
+            }
+            input[type="text"] {
+                width: 60%;
+            }
+            button {
+                width: 60%;
+            }
+        }
+        @media (max-width: 50px) {
+            h1 {
+                font-size: 14px;
+            }
+            input[type="text"] {
+                width: 50%;
+            }
+            button {
+                width: 50%;
+            }
+        }
+        @media (max-width: 25px) {
+            h1 {
+                font-size: 12px;
+            }
+            input[type="text"] {
+                width: 40%;
+            }
+            button {
+                width: 40%;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body class="container"><!-----Creating a todo list with hte help of javascript .so,we will be using reference from ./script.js-->
+    <h1 class="text-center" style="color: #ccc; font-size: 3rem; font-family:Arial, Helvetica, sans-serif">To Do List</h1>
+    <input type="text" id="taskInput" placeholder="Add a new task...">
+    <button id="addTaskButton">Add Task</button>
+    <ul id="taskList"></ul>
+
+    <script src="./script.js"></script>
+
+
+    
+</body>
+</html>
