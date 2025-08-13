@@ -1,0 +1,166 @@
+@media screen {
+    body {
+        margin: 10px;
+        padding: 10px;
+        background-color: #f0f0f0;
+    }
+    h1, h2 {
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        font-size: 2em;
+        color: #333;
+    }
+    h2 {
+        font-size: 1.5em;
+        color: #666;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        margin-right: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"] {
+        width: 200px;
+        height: 30px;
+        border: none;
+        border-radius: 10px;
+        padding-left: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+}
+
+#container{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
+    margin: 1px;
+    width: 100%;    
+    height: 100vh;
+    padding: 20px; 
+    overflow-y: scroll; 
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    color: #fdfcfc;
+    
+    
+}
+#logo{
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    border-radius: 15px;
+}
+#header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: center;
+    
+}
+#form{
+    
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-color: #fffefe;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgb(125, 126, 205);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+#h1{
+    color: rgb(217, 59, 59);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 30px;
+    height: 50px;
+    font-weight: bold;
+    
+    text-align: center;
+}
+#h2{
+    color: rgb(242, 141, 185);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;
+    height: 50px;
+    font-weight: bold;
+    
+    text-align: center;
+}
+
+#prn{
+    width: 200px;
+    height: 30px;
+    
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+    background: #fffefe;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    
+}
+
+#name{
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+    
+}
+
+#rollno{
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+#email{
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+#address{
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+input[type="submit"] {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
