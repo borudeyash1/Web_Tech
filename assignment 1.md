@@ -1,97 +1,188 @@
-Assignment Title
-Write a program to design a responsive homepage (e.g. for an E-commerce or Hospital website) using HTML, CSS, and Bootstrap.
 
-🎯 Objective
-To create a visually appealing and responsive homepage layout using web technologies—HTML, CSS, and Bootstrap—that adapts to different screen sizes and is suitable for a real-world application like an E-commerce or Hospital website.
 
-📚 Theory
-🔹 HTML (HyperText Markup Language)
-Defines the structure and content of a webpage.
 
-Common tags: <div>, <header>, <nav>, <section>, <footer>, <img>, <a>, etc.
 
-🔹 CSS (Cascading Style Sheets)
-Styles the HTML elements for colors, fonts, spacing, and layout.
+1. 👀 **Different Input and Output Cases**
+2. 🔍 **How the Code Works: Line-by-Line Workflow**
+3. 🧠 **Why We Used Specific Structures and Logic**
 
-Can be inline, internal, or external.
+---
 
-🔹 Bootstrap
-A popular CSS framework for responsive design.
+## 👀 1. Input and Output Examples
 
-Provides grid system (.container, .row, .col-md-4), ready-made UI components (cards, navbars, buttons), and utilities.
+### Case A: Simple subtraction
 
-Uses media queries and flexbox under the hood to adapt layout across devices.
+**Input:** `"2-1-1"`  
+**Output:** `[0, 2]`
 
-🛠 Procedure
-Create a basic HTML page with appropriate semantic tags.
+- `(2 - (1 - 1)) = 2`
+- `((2 - 1) - 1) = 0`
 
-Link Bootstrap CDN in <head> and optionally link external CSS.
+### Case B: Using multiplication
 
-Use Bootstrap’s grid system for layout, like navigation bar, banner, and sections.
+**Input:** `"2*3-4*5"`  
+**Output:** `[-34, -14, -10, -10, 10]`
 
-Customize appearance with your own CSS if needed.
+- Multiple ways to parenthesize lead to varied results.
 
-Test the page on different screen sizes to ensure responsiveness.
+### Case C: Single number
 
-💻 Program (Simple Version)
-html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Responsive Homepage</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .hero {
-      background-color: #f8f9fa;
-      padding: 60px 20px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
+**Input:** `"8"`  
+**Output:** `[8]`
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">SmartClinic</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-              aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+- No operators = just return the number.
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <h1>Welcome to SmartClinic</h1>
-    <p>Your health, our priority. Access digital consultations, appointments, and more.</p>
-    <a href="#" class="btn btn-primary">Get Started</a>
-  </div>
+### Case D: Mixed digits
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center p-3">
-    &copy; 2025 SmartClinic. All rights reserved.
-  </footer>
+**Input:** `"10-5+2"`  
+**Output:** `[7, 3]`
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-✅ Conclusion
-This assignment illustrates the basics of building a responsive homepage using modern web technologies. It integrates layout, design, and responsiveness—all essential for practical web development. Bootstrap makes responsiveness easy, and minimal CSS keeps it clean.
+- `(10 - (5 + 2)) = 3`
+- `((10 - 5) + 2) = 7`
 
-🌐 Web Resources
-📘 Bootstrap Official Documentation
 
-🎨 W3Schools: Responsive Web Design
+---
 
-🧠 MDN: HTML Basics
+## 🔍 2. Workflow & Logic Breakdown
+
+We’re using a **class-based structure** with **manual memoization**, written in basic C++ — no vectors, maps, or STL.
+
+### Main parts:
+
+#### 🔹 `ExpressionSolver` class
+
+- Holds:
+    - `savedExpr[]` – previously solved expressions
+    - `storedResults[][]` – actual results for each expression
+    - `resultSizes[]` – how many results each expression has
+    - `entryCount` – how many cached entries we have
+
+#### 🔹 `evaluate(string expr, int output[], int &count)`
+
+This method:
+
+1. **Checks cache**  
+    If we've already solved this expression before, return cached results instantly.
+    
+2. **Scans the expression**  
+    Loops through each character to find operators.
+    
+3. **Splits expression at every operator**  
+    For each operator:
+    
+    - Calls `evaluate()` recursively on the left and right halves
+4. **Combines sub-results**  
+    For every pair of left and right results:
+    
+    - Apply operator (`+`, `-`, `*`)
+    - Store the result in `output[]`
+5. **Base Case: no operator found**  
+    If the expression is just a number:
+    
+    - Convert string digits to integer manually
+    - Store it in `output[]`
+6. **Cache it for future reuse**  
+    Saves the `expr`, its results, and size for optimization.
+    
+
+---
+
+## 🧠 3. Why We Used This Approach
+
+|Element|Reason|
+|---|---|
+|**Class**|Keeps logic modular, reusable, and easy to maintain|
+|**Manual Cache**|Boosts performance by avoiding repeated computation of the same inputs|
+|**Arrays**|Keeps code simple, avoids STL — perfect for constrained environments|
+|**Divide & Conquer**|Natural fit for recursive parenthesization problems|
+|**No push_back / vector**|Because you wanted pure C++ syntax, no advanced containers|
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class ExpressionSolver {
+private:
+    string savedExpr[50];
+    int storedResults[50][10];
+    int resultSizes[50];
+    int entryCount = 0;
+
+public:
+    void evaluate(string expr, int output[], int &count) {
+        // Check if this expression has been processed before
+        for (int i = 0; i < entryCount; i++) {
+            if (savedExpr[i] == expr) {
+                count = resultSizes[i];
+                for (int j = 0; j < count; j++) {
+                    output[j] = storedResults[i][j];
+                }
+                return;
+            }
+        }
+
+        count = 0;
+
+        for (int i = 0; i < expr.length(); i++) {
+            char op = expr[i];
+            if (op == '+' || op == '-' || op == '*') {
+                string left = expr.substr(0, i);
+                string right = expr.substr(i + 1);
+
+                int leftVals[10], rightVals[10];
+                int leftCount = 0, rightCount = 0;
+
+                evaluate(left, leftVals, leftCount);
+                evaluate(right, rightVals, rightCount);
+
+                for (int x = 0; x < leftCount; x++) {
+                    for (int y = 0; y < rightCount; y++) {
+                        int val = 0;
+                        if (op == '+') val = leftVals[x] + rightVals[y];
+                        if (op == '-') val = leftVals[x] - rightVals[y];
+                        if (op == '*') val = leftVals[x] * rightVals[y];
+                        output[count++] = val;
+                    }
+                }
+            }
+        }
+		
+		        // If it's a pure number with no operators
+		        if (count == 0) {
+		            int number = 0;
+		            for (int i = 0; i < expr.length(); i++) {
+		                number = number * 10 + (expr[i] - '0');
+		            }
+		            output[count++] = number;
+		        }
+		
+		        // Save results for future lookup
+		        savedExpr[entryCount] = expr;
+		        resultSizes[entryCount] = count;
+		        for (int j = 0; j < count; j++) {
+		            storedResults[entryCount][j] = output[j];
+		        }
+		        entryCount++;
+		    }
+		};
+		
+		int main() {
+		    string input;
+		    cout << "Enter expression: ";
+		    cin >> input;
+		
+		    ExpressionSolver solver;
+		    int finalResult[20];
+		    int total = 0;
+		
+		    solver.evaluate(input, finalResult, total);
+		
+		    cout << "Results: [";
+		    for (int i = 0; i < total; i++) {
+		        cout << finalResult[i];
+		        if (i < total - 1) cout << ", ";
+		    }
+		    cout << "]" << endl;
+		
+		    return 0;
+		}

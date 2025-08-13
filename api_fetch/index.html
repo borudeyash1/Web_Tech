@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather API</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, #cfdf55, #3ba6dc);
+            text-align: center;
+        }
+        #heading{
+            font-size: 40px;
+            color: aliceblue;
+
+        }
+        #button{
+            background:linear-gradient(to right, #5563df, #3ba6dc);
+            border-radius: 5px;
+            border: none;
+            color: aliceblue;
+            size: 20px;
+        }
+        #weather-list{
+            color: rebeccapurple;
+            background-color: aliceblue;
+            font-size: 20px;
+            border-radius: 2px;
+            width: auto;
+            
+        }
+        #text{
+            border: none;
+            border-radius: 5px;
+            height: 30px;
+            width: 200px;
+        }
+        #weather-form{
+            width: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 id="heading">Weather API</h1>
+    <form id="weather-form">
+        <label for="city">Enter City Name:</label>
+        <input type="text" id="city" name="city">
+        <button type="submit" id="button">Get Weather</button>
+    </form>
+    <ul id="weather-list"></ul>
+    <script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const city = document.getElementById('city').value.trim();
+            if (city) {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=f2b6be938d0009df6f7a700de8f4a23a`);
+                if (response.ok) {
+                    const data = await response.json();
+                
+                    document.getElementById('heading').innerHTML = `Weather in ${data.name}`;
+                    const weatherList = document.getElementById('weather-list');
+                    weatherList.innerHTML = '';
+                    const weatherItem = document.createElement('li');
+                    weatherItem.textContent = `Temperature: ${(data.main.temp - 273.15).toFixed(2)}°C`;
+                    weatherList.appendChild(weatherItem);
+                } else {
+                    alert('City not found. Please try another city.');
+                }
+            } else {
+                alert('Please enter a city name.');
+            }
+        });
+    </script>
+</body>
+</html>
+
