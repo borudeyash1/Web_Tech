@@ -34,9 +34,135 @@
               "icon": "lucide-file",
               "title": "Untitled"
             }
+          },
+          {
+            "id": "08f472aab0adb41c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SMART NURSERY ADVANCEMENTS - IMPLEMENTATION PLAN.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "SMART NURSERY ADVANCEMENTS - IMPLEMENTATION PLAN"
+            }
+          },
+          {
+            "id": "89410ad4d9ccc9f3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Autonomous Multi-Drone Navigation System.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Autonomous Multi-Drone Navigation System"
+            }
+          },
+          {
+            "id": "8dfd2fa8d2a46363",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Autonomous Multi-Drone Navigation System.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Autonomous Multi-Drone Navigation System"
+            }
+          },
+          {
+            "id": "f0dddc2355aed6aa",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Production deployment guide for deadstock-management.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Production deployment guide for deadstock-management"
+            }
+          },
+          {
+            "id": "e8c5f1161c36d032",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Project understanding for a crypto trading web application.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Project understanding for a crypto trading web application"
+            }
+          },
+          {
+            "id": "b8c96d8fa44d368a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Advancements Over Existing System.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Advancements Over Existing System"
+            }
+          },
+          {
+            "id": "048c48e363d707e5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "MCU Comparison & Peripheral Pin Configuration.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "MCU Comparison & Peripheral Pin Configuration"
+            }
+          },
+          {
+            "id": "80cbb2ba5337a6b6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "FDS Assignments.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "FDS Assignments"
+            }
+          },
+          {
+            "id": "26a80a5ebe81c297",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Maintenance of toilet blocks on National Highways in India.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Maintenance of toilet blocks on National Highways in India"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 10
       }
     ],
     "direction": "vertical"
@@ -93,8 +219,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "e3461ffaa2e8d30d",
@@ -176,6 +301,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -184,10 +310,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3ffa20d9a36d5369",
+  "active": "26a80a5ebe81c297",
   "lastOpenFiles": [
-    "AIML SEM5 CIA II preface.pdf",
+    "FDS Assignments.md",
+    "Maintenance of toilet blocks on National Highways in India.md",
+    "MCU Comparison & Peripheral Pin Configuration.md",
+    "Advancements Over Existing System.md",
+    "Project understanding for a crypto trading web application.md",
+    "Production deployment guide for deadstock-management.md",
     "Untitled.md",
+    "Autonomous Multi-Drone Navigation System.md",
+    "AIML SEM5 CIA II preface.pdf",
+    "SMART NURSERY ADVANCEMENTS - IMPLEMENTATION PLAN.md",
     "assignment 1.md"
   ]
 }
