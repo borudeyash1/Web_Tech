@@ -1,0 +1,59 @@
+.App{
+  text-align: center;
+  background-color: #95acdb;
+  min-height: 100vh;
+  align-items: center;
+}
+
+h1{
+  color: white;
+  font-family: cursive;
+  font-size: 3rem;
+}
+
+h2{
+  color: rebeccapurple;
+  font-family: cursive;
+  font-size: 2rem;
+}
+
+.post-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.card{
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0.5rem;
+  background-color: #232f3e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+h3{
+  
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: rgb(155, 146, 151);
+  font-size: 1.2rem;
+  margin: auto;
+
+}
+
+p{
+  font-size: 1rem;
+  color: #ede9e9;
+  line-height: 1.6;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: justify;
+  font-family: cursive;
+}

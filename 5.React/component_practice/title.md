@@ -1,0 +1,1 @@
+create a react application with jsx with functional components.Pass data using propps and manage usestate using hook
