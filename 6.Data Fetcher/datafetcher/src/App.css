@@ -23,6 +23,10 @@ h2{
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
+
+}
+.post-list.id::marker{
+  display: none;
 }
 
 .card{
