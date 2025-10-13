@@ -8,138 +8,106 @@ the student details are sotred in ./students.json in form of
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// Serve static files from this directory
+app.use(express.static(__dirname));
 
+// Helpers
+function readStudents(cb) {
+  fs.readFile(path.join(__dirname, 'students.json'), 'utf8', (err, data) => {
+    if (err) return cb(err);
+    try {
+      const students = JSON.parse(data || '[]');
+      cb(null, students);
+    } catch (e) {
+      cb(e);
+    }
+  });
+}
+
+function writeStudents(students, cb) {
+  fs.writeFile(path.join(__dirname, 'students.json'), JSON.stringify(students, null, 2), 'utf8', cb);
+}
+
+// Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/styles.css', (req, res) => {
-  res.sendFile(path.join(__dirname, 'styles.css'));
-});
-
-app.get('/script.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'script.js'));
-});
-
+// RESTful API
 app.get('/students', (req, res) => {
-  fs.readFile('students.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading student data');
-    } else {
-      res.json(JSON.parse(data));
-    }
+  readStudents((err, students) => {
+    if (err) return res.status(500).send('Error reading student data');
+    res.json(students);
+  });
+});
+
+app.get('/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  readStudents((err, students) => {
+    if (err) return res.status(500).send('Error reading student data');
+    const student = students.find(s => s.id === id);
+    if (student) res.json(student);
+    else res.status(404).send('Student not found');
+  });
+});
+
+app.post('/students', (req, res) => {
+  const newStudent = req.body;
+  if (!newStudent || !newStudent.name) return res.status(400).send('Invalid student data');
+  readStudents((err, students) => {
+    if (err) return res.status(500).send('Error reading student data');
+    const maxId = students.reduce((m, s) => Math.max(m, s.id || 0), 0);
+    const student = {
+      id: (newStudent.id && Number(newStudent.id)) || maxId + 1,
+      name: String(newStudent.name),
+      age: newStudent.age ? Number(newStudent.age) : null,
+      major: newStudent.major ? String(newStudent.major) : ''
+    };
+    students.push(student);
+    writeStudents(students, (err) => {
+      if (err) return res.status(500).send('Error saving student data');
+      res.status(201).json(student);
+    });
+  });
+});
+
+app.put('/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const updated = req.body;
+  readStudents((err, students) => {
+    if (err) return res.status(500).send('Error reading student data');
+    const idx = students.findIndex(s => s.id === id);
+    if (idx === -1) return res.status(404).send('Student not found');
+    students[idx] = { id, name: updated.name || students[idx].name, age: updated.age || students[idx].age, major: updated.major || students[idx].major };
+    writeStudents(students, (err) => {
+      if (err) return res.status(500).send('Error saving student data');
+      res.json(students[idx]);
+    });
+  });
+});
+
+app.delete('/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  readStudents((err, students) => {
+    if (err) return res.status(500).send('Error reading student data');
+    const idx = students.findIndex(s => s.id === id);
+    if (idx === -1) return res.status(404).send('Student not found');
+    const removed = students.splice(idx, 1)[0];
+    writeStudents(students, (err) => {
+      if (err) return res.status(500).send('Error saving student data');
+      res.json(removed);
+    });
   });
 });
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
-}); 
-// RESTful API for student data
-const getStudents = (req, res) => {
-  fs.readFile('./students.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading student data');
-    } else {
-      res.json(JSON.parse(data));
-    }
-  });
-};
-
-const getStudentById = (req, res) => {
-  const id = parseInt(req.params.id);
-  fs.readFile('students.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading student data');
-    } else {
-      const students = JSON.parse(data);
-      const student = students.find(s => s.id === id);
-      if (student) {
-        res.json(student);
-      } else {
-        res.status(404).send('Student not found');
-      }
-    }
-  });
-};
-
-const addStudent = (req, res) => {
-  const newStudent = req.body;
-  fs.readFile('students.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading student data');
-    } else {
-      const students = JSON.parse(data);
-      students.push(newStudent);
-      fs.writeFile('students.json', JSON.stringify(students), err => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Error saving student data');
-        } else {
-          res.status(201).send('Student added successfully');
-        }
-      });
-    }
-  });
-};
-
-const updateStudent = (req, res) => {
-  const id = parseInt(req.params.id);
-  const updatedStudent = req.body;  
-  fs.readFile('students.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading student data');
-    } else {
-      const students = JSON.parse(data);
-      const studentIndex = students.findIndex(s => s.id === id);
-      if (studentIndex !== -1) {
-        students[studentIndex] = updatedStudent;
-        fs.writeFile('students.json', JSON.stringify(students), err => {
-          if (err) {
-            console.error(err);
-            res.status(500).send('Error saving student data');
-          } else {
-            res.status(200).send('Student updated successfully');
-          }
-        });
-      } else {
-        res.status(404).send('Student not found');
-      }
-    }
-  });   
-};
-
-const deleteStudent = (req, res) => {
-  const id = parseInt(req.params.id);
-  fs.readFile('students.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading student data');
-    } else {
-      const students = JSON.parse(data);
-      const studentIndex = students.findIndex(s => s.id === id);
-      if (studentIndex !== -1) {
-        students.splice(studentIndex, 1);
-        fs.writeFile('students.json', JSON.stringify(students), err => {
-          if (err) {
-            console.error(err);
-            res.status(500).send('Error saving student data');
-          } else {
-            res.status(200).send('Student deleted successfully');
-          }
-        });
-      } else {
-        res.status(404).send('Student not found');
-      }
-    }
-  });
-};  
+});

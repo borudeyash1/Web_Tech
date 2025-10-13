@@ -49,6 +49,10 @@
         <label for="city">Enter City Name:</label>
         <input type="text" id="city" name="city" autocomplete="off">
         <div id="suggestions" style="position:relative; width:200px; margin:0 auto; text-align:left;"></div>
+        <div style="margin:8px 0;">
+            <button type="button" id="set-key">Set API Key</button>
+            <button type="button" id="clear-key">Clear Key</button>
+        </div>
         <button type="submit" id="button">Get Weather</button>
     </form>
     <ul id="weather-list"></ul>
@@ -64,6 +68,23 @@
 
         const cityInput = document.getElementById('city');
         const suggestionsBox = document.getElementById('suggestions');
+        const setKeyBtn = document.getElementById('set-key');
+        const clearKeyBtn = document.getElementById('clear-key');
+
+        function getApiKey() {
+            return localStorage.getItem('OWM_API_KEY') || '';
+        }
+
+        function askForApiKey() {
+            const key = prompt('Enter your OpenWeatherMap API key (will be stored locally in your browser):');
+            if (key) {
+                localStorage.setItem('OWM_API_KEY', key.trim());
+                alert('API key saved to localStorage. You can now fetch weather.');
+            }
+        }
+
+        setKeyBtn.addEventListener('click', askForApiKey);
+        clearKeyBtn.addEventListener('click', function(){ localStorage.removeItem('OWM_API_KEY'); alert('API key cleared.'); });
 
         cityInput.addEventListener('input', function() {
             const value = this.value.trim().toLowerCase();
@@ -106,21 +127,43 @@
         document.querySelector('form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const city = document.getElementById('city').value.trim();
-            if (city) {
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=f2b6be938d0009df6f7a700de8f4a23a`);
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('heading').innerHTML = `Weather in ${data.name}`;
-                    const weatherList = document.getElementById('weather-list');
-                    weatherList.innerHTML = '';
-                    const weatherItem = document.createElement('li');
-                    weatherItem.textContent = `Temperature: ${(data.main.temp - 273.15).toFixed(2)}°C`;
-                    weatherList.appendChild(weatherItem);
-                } else {
-                    alert('City not found. Please try another city.');
-                }
-            } else {
+            if (!city) {
                 alert('Please enter a city name.');
+                return;
+            }
+            const apiKey = getApiKey();
+            if (!apiKey) {
+                if (confirm('No OpenWeatherMap API key found. Would you like to enter one now?')) {
+                    askForApiKey();
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${encodeURIComponent(apiKey)}`);
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        alert('Invalid API key. Please set a valid OpenWeatherMap API key.');
+                        return;
+                    }
+                    if (response.status === 404) {
+                        alert('City not found. Please try another city.');
+                        return;
+                    }
+                    const text = await response.text();
+                    alert('Error fetching weather: ' + text);
+                    return;
+                }
+                const data = await response.json();
+                document.getElementById('heading').innerHTML = `Weather in ${data.name}`;
+                const weatherList = document.getElementById('weather-list');
+                weatherList.innerHTML = '';
+                const weatherItem = document.createElement('li');
+                weatherItem.textContent = `Temperature: ${(data.main.temp - 273.15).toFixed(2)}°C`;
+                weatherList.appendChild(weatherItem);
+            } catch (err) {
+                console.error(err);
+                alert('Network error while fetching weather. Check your connection and try again.');
             }
         });
     </script>

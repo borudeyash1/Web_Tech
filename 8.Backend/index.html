@@ -1,49 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Data</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Student Data</h1>
-    <form action="http://localhost:3000/students" method="post">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter name">
-        <label for="age">Age</label>
-        <input type="number" id="age" name="age" placeholder="Enter age">
-        <label for="major">Major</label>
-        <input type="text" id="major" name="major" placeholder="Enter major">
-        <input type="submit" value="Add">
-    </form>
-    <h2>Get all students</h2>
-    <form action="http://localhost:3000/students" method="get">
-        <input type="submit" value="Get all">
-    </form>
-    <h2>Get student by id</h2>
-    <form action="http://localhost:3000/students/:id" method="get">
-        <label for="id">ID</label>
-        <input type="number" id="id" name="id" placeholder="Enter ID">
-        <input type="submit" value="Get by id">
-    </form>
-    <h2>Update student</h2>
-    <form action="http://localhost:3000/students/:id" method="put">
-        <label for="id">ID</label>
-        <input type="number" id="id" name="id" placeholder="Enter ID">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter name">
-        <label for="age">Age</label>
-        <input type="number" id="age" name="age" placeholder="Enter age">
-        <label for="major">Major</label>
-        <input type="text" id="major" name="major" placeholder="Enter major">
-        <input type="submit" value="Update">
-    </form>
-    <h2>Delete student</h2>
-    <form action="http://localhost:3000/students/:id" method="delete">
-        <label for="id">ID</label>
-        <input type="number" id="id" name="id" placeholder="Enter ID">
-        <input type="submit" value="Delete">
-    </form>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Student Data API Demo</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Student Data (API Demo)</h1>
+
+            <section class="panel">
+                <h2>Add student</h2>
+                <form id="add-form">
+                    <input name="name" id="name" placeholder="Name" required />
+                    <input name="age" id="age" type="number" placeholder="Age" />
+                    <input name="major" id="major" placeholder="Major" />
+                    <button type="submit">Add</button>
+                </form>
+                <div id="add-result" class="result"></div>
+            </section>
+
+            <section class="panel">
+                <h2>Students</h2>
+                <div id="students-list"></div>
+                <button id="refresh">Refresh</button>
+            </section>
+
+            <section class="panel">
+                <h2>Actions</h2>
+                <div>
+                    <input id="action-id" placeholder="Student ID" type="number" />
+                    <button id="get-by-id">Get by ID</button>
+                    <button id="delete-by-id">Delete by ID</button>
+                </div>
+                <div id="action-result" class="result"></div>
+            </section>
+        </div>
+
+        <script>
+            const apiRoot = window.location.origin;
+
+            async function fetchStudents() {
+                const list = document.getElementById('students-list');
+                list.innerHTML = 'Loading...';
+                try {
+                    const res = await fetch(apiRoot + '/students');
+                    if (!res.ok) throw new Error('Failed to fetch students: ' + res.status);
+                    const students = await res.json();
+                    if (!students.length) list.innerHTML = '<p>No students found.</p>';
+                    else {
+                        const html = students.map(s => `
+                            <div class="student">
+                                <div><strong>ID:</strong> ${s.id}</div>
+                                <div><strong>Name:</strong> ${s.name}</div>
+                                <div><strong>Age:</strong> ${s.age ?? ''}</div>
+                                <div><strong>Major:</strong> ${s.major ?? ''}</div>
+                            </div>
+                        `).join('');
+                        list.innerHTML = html;
+                    }
+                } catch (err) {
+                    console.error(err);
+                    list.innerHTML = '<p class="error">Error loading students. Make sure the server is running.</p>';
+                }
+            }
+
+            document.getElementById('refresh').addEventListener('click', fetchStudents);
+
+            document.getElementById('add-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const age = document.getElementById('age').value;
+                const major = document.getElementById('major').value.trim();
+                const result = document.getElementById('add-result');
+                result.textContent = '';
+                try {
+                    const res = await fetch(apiRoot + '/students', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, age: age ? Number(age) : undefined, major })
+                    });
+                    if (!res.ok) throw new Error('Failed to add student: ' + res.status);
+                    const student = await res.json();
+                    result.textContent = 'Added student with ID ' + student.id;
+                    e.target.reset();
+                    fetchStudents();
+                } catch (err) {
+                    console.error(err);
+                    result.textContent = 'Error adding student';
+                    result.classList.add('error');
+                }
+            });
+
+            document.getElementById('get-by-id').addEventListener('click', async () => {
+                const id = Number(document.getElementById('action-id').value);
+                const out = document.getElementById('action-result');
+                out.textContent = '';
+                if (!id) { out.textContent = 'Enter an ID'; return; }
+                try {
+                    const res = await fetch(apiRoot + '/students/' + id);
+                    if (!res.ok) { out.textContent = 'Student not found'; return; }
+                    const s = await res.json();
+                    out.innerHTML = `<pre>${JSON.stringify(s, null, 2)}</pre>`;
+                } catch (err) {
+                    console.error(err);
+                    out.textContent = 'Error fetching student';
+                }
+            });
+
+            document.getElementById('delete-by-id').addEventListener('click', async () => {
+                const id = Number(document.getElementById('action-id').value);
+                const out = document.getElementById('action-result');
+                out.textContent = '';
+                if (!id) { out.textContent = 'Enter an ID'; return; }
+                try {
+                    const res = await fetch(apiRoot + '/students/' + id, { method: 'DELETE' });
+                    if (!res.ok) { out.textContent = 'Delete failed'; return; }
+                    const removed = await res.json();
+                    out.textContent = 'Deleted: ' + removed.name;
+                    fetchStudents();
+                } catch (err) {
+                    console.error(err);
+                    out.textContent = 'Error deleting student';
+                }
+            });
+
+            // initial load
+            fetchStudents();
+        </script>
+    </body>
 </html>

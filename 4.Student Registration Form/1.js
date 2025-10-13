@@ -44,7 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 showConfirmation('Registration failed: ' + err, true);
             }
         } catch (error) {
-            showConfirmation('Error connecting to server. Please try again later.', true);
+            console.warn('POST to /api/register failed, saving locally as fallback.', error);
+            // Save to localStorage fallback
+            const saved = JSON.parse(localStorage.getItem('local_registrations') || '[]');
+            saved.push(data);
+            localStorage.setItem('local_registrations', JSON.stringify(saved));
+            showConfirmation('No server connection. Registration saved locally and will be synced when the server is available.', true);
+            form.reset();
         }
     });
 

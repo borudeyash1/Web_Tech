@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mongo Students </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Mongo Students</h1>
+    <section class="panel">
+      <form id="add-form">
+        <input id="name" placeholder="Name" required />
+        <input id="age" type="number" placeholder="Age" />
+        <input id="major" placeholder="Major" />
+        <button>Add</button>
+      </form>
+      <div id="add-result" class="result"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Students</h2>
+      <div id="students-list"></div>
+      <button id="refresh">Refresh</button>
+    </section>
+
+  <section class="panel hidden" id="edit-panel">
+      <h2>Edit student</h2>
+      <form id="edit-form">
+        <input id="edit-id" type="hidden" />
+        <input id="edit-name" placeholder="Name" required />
+        <input id="edit-age" type="number" placeholder="Age" />
+        <input id="edit-major" placeholder="Major" />
+        <button type="submit">Save</button>
+        <button type="button" id="cancel-edit">Cancel</button>
+      </form>
+      <div id="edit-result" class="result"></div>
+    </section>
+  </div>
+
+<script>
+const apiRoot = '';
+async function fetchStudents(){
+  const list = document.getElementById('students-list');
+  list.innerHTML = 'Loading...';
+  try{
+    const res = await fetch('/students');
+    if(!res.ok) throw new Error('Fetch failed');
+    const students = await res.json();
+    list.innerHTML = students.map(s => `
+      <div class="student" data-id="${s._id}">
+        <div><strong>${s.name}</strong></div>
+        <div>${s.age ?? ''}</div>
+        <div>${s.major ?? ''}</div>
+        <div class="student-actions">
+          <button class="btn-secondary" data-action="edit" data-id="${s._id}">Edit</button>
+          <button data-action="delete" data-id="${s._id}">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){
+    list.innerHTML = '<div class="error">Error loading students</div>';
+  }
+}
+
+document.getElementById('refresh').addEventListener('click', fetchStudents);
+document.getElementById('add-form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const age = document.getElementById('age').value;
+  const major = document.getElementById('major').value.trim();
+  try{
+    const res = await fetch('/students', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, age: age?Number(age):undefined, major})});
+    if(!res.ok) throw new Error('Add failed');
+    document.getElementById('add-result').textContent = 'Added';
+    e.target.reset();
+    fetchStudents();
+  }catch(err){
+    document.getElementById('add-result').textContent = 'Error adding';
+  }
+});
+// Delegated click handler for edit/delete
+document.getElementById('students-list').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const action = btn.getAttribute('data-action');
+  const id = btn.getAttribute('data-id');
+  if (action === 'delete') deleteStudent(id);
+  if (action === 'edit') openEdit(id);
+});
+
+async function deleteStudent(id){
+  if(!confirm('Delete this student?')) return;
+  try{
+    const res = await fetch('/students/' + id, { method: 'DELETE' });
+    if(!res.ok) throw new Error('Delete failed');
+    fetchStudents();
+  }catch(err){
+    alert('Delete failed');
+  }
+}
+
+async function openEdit(id){
+  try{
+    const res = await fetch('/students/' + id);
+    if(!res.ok) throw new Error('Not found');
+    const s = await res.json();
+    document.getElementById('edit-id').value = s._id;
+    document.getElementById('edit-name').value = s.name;
+    document.getElementById('edit-age').value = s.age || '';
+    document.getElementById('edit-major').value = s.major || '';
+    document.getElementById('edit-panel').classList.remove('hidden');
+  }catch(err){
+    alert('Could not load student');
+  }
+}
+
+document.getElementById('cancel-edit').addEventListener('click', ()=>{
+  document.getElementById('edit-panel').classList.add('hidden');
+});
+
+document.getElementById('edit-form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const id = document.getElementById('edit-id').value;
+  const name = document.getElementById('edit-name').value.trim();
+  const age = document.getElementById('edit-age').value;
+  const major = document.getElementById('edit-major').value.trim();
+  try{
+    const res = await fetch('/students/' + id, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name, age: age?Number(age):undefined, major }) });
+    if(!res.ok) throw new Error('Update failed');
+    document.getElementById('edit-result').textContent = 'Saved';
+    document.getElementById('edit-panel').classList.add('hidden');
+    fetchStudents();
+  }catch(err){
+    document.getElementById('edit-result').textContent = 'Error saving';
+  }
+});
+fetchStudents();
+</script>
+</body>
+</html>
