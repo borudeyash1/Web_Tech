@@ -11,7 +11,12 @@ async function seed() {
   const students = [
     { name: 'Alice', age: 20, major: 'Computer Science' },
     { name: 'Bob', age: 22, major: 'Mathematics' },
-    { name: 'Charlie', age: 21, major: 'Physics' }
+    { name: 'Charlie', age: 21, major: 'Physics' },
+    { name: 'George', age: 19, major: 'Biology' },
+    { name: 'Alice', age: 20, major: 'Computer Science' },
+    { name: 'Bob', age: 22, major: 'Mathematics' },
+    { name: 'Charlie', age: 21, major: 'Physics' },
+    { name: 'George', age: 19, major: 'Biology' }
   ];
   await Student.insertMany(students);
   console.log('Seeded students');

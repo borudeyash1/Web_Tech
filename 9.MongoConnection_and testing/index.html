@@ -20,7 +20,15 @@
     </section>
 
     <section class="panel">
+        <div>
       <h2>Students</h2>
+      <div class="selector">
+        
+        <button class="select-all">Select all</button>
+        <button id="bulk-delete" class="danger" disabled>Bulk Delete</button>
+        <span id="selected-count" class="selected-count">Selected: 0</span>
+      </div>
+      </div>
       <div id="students-list"></div>
       <button id="refresh">Refresh</button>
     </section>
@@ -50,6 +58,7 @@ async function fetchStudents(){
     const students = await res.json();
     list.innerHTML = students.map(s => `
       <div class="student" data-id="${s._id}">
+        <input type="checkbox" class="student-checkbox" data-id="${s._id}" />
         <div><strong>${s.name}</strong></div>
         <div>${s.age ?? ''}</div>
         <div>${s.major ?? ''}</div>
@@ -59,6 +68,7 @@ async function fetchStudents(){
         </div>
       </div>
     `).join('');
+    updateSelectedCount();
   }catch(e){
     list.innerHTML = '<div class="error">Error loading students</div>';
   }
@@ -88,6 +98,74 @@ document.getElementById('students-list').addEventListener('click', (e)=>{
   const id = btn.getAttribute('data-id');
   if (action === 'delete') deleteStudent(id);
   if (action === 'edit') openEdit(id);
+});
+
+// Handle checkbox change events (delegated)
+document.getElementById('students-list').addEventListener('change', (e) => {
+  const cb = e.target.closest('.student-checkbox');
+  if (!cb) return;
+  const row = cb.closest('.student');
+  if (cb.checked) row.classList.add('selected'); else row.classList.remove('selected');
+  updateSelectedCount();
+});
+
+// Select all / select student handlers
+document.querySelector('.select-all').addEventListener('click', () => {
+  const checkboxes = Array.from(document.querySelectorAll('.student-checkbox'));
+  if (checkboxes.length === 0) return;
+  const allChecked = checkboxes.every(c => c.checked);
+  checkboxes.forEach(c => { c.checked = !allChecked; c.dispatchEvent(new Event('change')); });
+});
+
+document.querySelector('.select-student').addEventListener('click', () => {
+  const q = prompt('Enter student ID or name to toggle selection:');
+  if (!q) return;
+  const rows = Array.from(document.querySelectorAll('.student'));
+  let matched = 0;
+  rows.forEach(r => {
+    const id = r.getAttribute('data-id');
+    const name = r.querySelector('strong')?.textContent || '';
+    if (id === q || name.toLowerCase() === q.toLowerCase()) {
+      const cb = r.querySelector('.student-checkbox');
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change'));
+      matched++;
+    }
+  });
+  if (matched === 0) alert('No matching student found');
+});
+
+function updateSelectedCount(){
+  const count = document.querySelectorAll('.student-checkbox:checked').length;
+  document.getElementById('selected-count').textContent = 'Selected: ' + count;
+  const bulkBtn = document.getElementById('bulk-delete');
+  if (bulkBtn) bulkBtn.disabled = count === 0;
+}
+
+// Bulk delete selected students
+document.getElementById('bulk-delete').addEventListener('click', async () => {
+  const checked = Array.from(document.querySelectorAll('.student-checkbox:checked'));
+  if (checked.length === 0) { alert('No students selected'); return; }
+  if (!confirm(`Delete ${checked.length} selected student(s)? This cannot be undone.`)) return;
+  const btn = document.getElementById('bulk-delete');
+  btn.disabled = true;
+  btn.textContent = `Deleting (0/${checked.length})`;
+  let deleted = 0;
+  for (let i = 0; i < checked.length; i++) {
+    const id = checked[i].getAttribute('data-id');
+    try {
+      const res = await fetch('/students/' + id, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Delete failed');
+      deleted++;
+    } catch (err) {
+      console.error('Failed to delete', id, err);
+      // continue with others
+    }
+    btn.textContent = `Deleting (${deleted}/${checked.length})`;
+  }
+  btn.textContent = 'Bulk Delete';
+  btn.disabled = false;
+  fetchStudents();
 });
 
 async function deleteStudent(id){

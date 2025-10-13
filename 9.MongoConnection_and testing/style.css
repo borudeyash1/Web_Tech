@@ -10,3 +10,10 @@ button{padding:8px 12px;border-radius:6px;border:none;background:var(--accent);c
 .student-actions{margin-left:auto;display:flex;gap:8px}
 .btn-secondary{background:#666}
 .hidden{display:none}
+.student input[type="checkbox"]{margin-right:8px}
+.student.selected{background:#eef6ff}
+.selector {display:flex;align-items:center;gap:8px}
+.selected-count {margin-left:12px;color:#333}
+.select-student{background:#007bff;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer}
+.select-all{background:#28a745;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer}
+.selector{display:flex;gap:10px;margin-bottom:10px}
