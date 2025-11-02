@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head><title>Basic CRUD</title></head>
+<body>
+    <h2>Student Form</h2>
+    
+    <form id="studentForm">
+        <input type="hidden" id="studentId" name="studentId">
+        PRN: <input type="text" id="prn" name="prn" required><br><br>
+        Name: <input type="text" id="name" name="name" required><br><br>
+        Roll No: <input type="text" id="rollno" name="rollno" required><br><br>
+        Email: <input type="email" id="email" name="email" required><br><br>
+        Address: <input type="text" id="address" name="address" required><br><br>
+        <button type="submit">Save</button>
+        <button type="button" onclick="document.getElementById('studentForm').reset();document.getElementById('studentId').value='';">Clear</button>
+    </form>
+
+    <div id="message"></div>
+    <hr>
+
+    <h3>Students</h3>
+    <table border="1">
+        <thead><tr><th>PRN</th><th>Name</th><th>Roll</th><th>Email</th><th>Address</th><th>Actions</th></tr></thead>
+        <tbody id="studentsTable"></tbody>
+    </table>
+
+    <script>
+    // Load students when page opens
+    document.addEventListener('DOMContentLoaded', loadStudents);
+    
+    // Handle form submit
+    document.getElementById('studentForm').onsubmit = function(e) {
+        e.preventDefault();
+        var data = {
+            id: document.getElementById('studentId').value,
+            prn: document.getElementById('prn').value,
+            name: document.getElementById('name').value,
+            rollno: document.getElementById('rollno').value,
+            email: document.getElementById('email').value,
+            address: document.getElementById('address').value
+        };
+        
+        fetch('simple_crud.php', {
+            method: data.id ? 'PUT' : 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('message').innerText = data.message;
+            if(data.success) {
+                loadStudents();
+                document.getElementById('studentForm').reset();
+                document.getElementById('studentId').value = '';
+            }
+        });
+    };
+
+    // Load all students
+    function loadStudents() {
+        fetch('simple_crud.php')
+        .then(r => r.json())
+        .then(students => {
+            var html = '';
+            students.forEach(s => {
+                html += `<tr>
+                    <td>${s.prn}</td>
+                    <td>${s.name}</td>
+                    <td>${s.rollno}</td>
+                    <td>${s.email}</td>
+                    <td>${s.address}</td>
+                    <td>
+                        <button onclick='editStudent(${JSON.stringify(s)})'>Edit</button>
+                        <button onclick='deleteStudent(${s.id})'>Delete</button>
+                    </td>
+                </tr>`;
+            });
+            document.getElementById('studentsTable').innerHTML = html;
+        });
+    }
+
+    // Fill form for editing
+    function editStudent(s) {
+        document.getElementById('studentId').value = s.id;
+        document.getElementById('prn').value = s.prn;
+        document.getElementById('name').value = s.name;
+        document.getElementById('rollno').value = s.rollno;
+        document.getElementById('email').value = s.email;
+        document.getElementById('address').value = s.address;
+    }
+
+    // Delete a student
+    function deleteStudent(id) {
+        if(!confirm('Delete?')) return;
+        fetch('simple_crud.php', {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: id})
+        })
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('message').innerText = data.message;
+            if(data.success) loadStudents();
+        });
+    }
+    </script>
+</body>
+</html>
